@@ -9,4 +9,6 @@ in your language
 3. open the link in Pages
 (The “Open link?” warning will continue. warning continues)
 
-enjoy echo show life. :D
+Click on the “mode” link to toggle the display
+
+:D
