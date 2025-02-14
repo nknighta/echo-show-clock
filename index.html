@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>clock</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Oswald&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Noto Sans", sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            height: calc(100vh - 20px);
+        }
+
+        #clock {
+            font-size: 10em;
+            color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #date {
+            font-size: 4em;
+            color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        #textsizectrl {
+            font-size: 1em;
+            color: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        button {
+            font-size: 1em;
+            color: #f0f0f0;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #555;
+            border: none;
+            cursor: pointer;
+            width: 100px;
+            margin: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="clock"></div>
+    <div id="date"></div>
+    <a href="?m=s" id="modechange">mode</a>
+    <div id="textsizectrl">textsize</div>
+    <div id="textsizectrlbtn">
+        <button onclick="document.getElementById('clock').style.fontSize = '6em';">small</button>
+        <button onclick="document.getElementById('clock').style.fontSize = '10em';">medium</button>
+        <button onclick="document.getElementById('clock').style.fontSize = '14em';">large</button>
+        <button onclick="document.getElementById('clock').style.fontSize = '18em';">xlarge</button>
+    </div>
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+
+            let warray = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+            let timeString;
+            if (seconds % 2 === 0) {
+                timeString = `${hours}:${minutes}:${seconds}`;
+            } else {
+                timeString = `${hours} ${minutes} ${seconds}`;
+            }
+            document.getElementById('clock').textContent = timeString;
+            document.getElementById('date').textContent = now.toLocaleDateString() + " - " + warray[now.getDay()];
+            const urlParams = new URLSearchParams(window.location.search);
+            const mode = urlParams.get('m');
+            if (mode === 's') {
+                // Perform actions when ?m=s
+                document.getElementById('textsizectrlbtn').style.display = "none";
+                document.getElementById('textsizectrl').style.display = "none";
+                document.getElementById('modechange').style.display = "none";
+                document.getElementById('clock').textContent = `${hours}:${minutes}`;
+            }
+        }
+
+        // 初回実行と1秒ごとの更新
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+
+</html>
